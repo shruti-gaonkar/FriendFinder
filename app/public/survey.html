@@ -8,18 +8,17 @@
     <title>FriendFinder</title>
 
     <!-- Latest compiled and minified CSS & JS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <!-- Font Awesome Glyphicons -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
+    <!-- Chosen -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
 </head>
 
 <body>
@@ -35,17 +34,62 @@
         <input type="text" id="photo" class="form-control" required>
 
         <hr>
+        <div id="choiceListId"></div>
 
+        <br />
+        <br />
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit"><i class="fa fa-check-circle"
+                aria-hidden="true"></i>
+            Submit</button>
 
+        <hr>
+        <footer class="footer">
+            <div class="container">
+                <p><a href="/api/friends">API Friends List</a> | <a
+                        href="https://github.com/afhaque/friendfinder">GitHub Repo</a></p>
+            </div>
+        </footer>
     </div>
 
     <script>
-        $.get("/api/choices/2", function (data) {
-            for (var i = 0; i < tableData.length; i++) {
-                <select class="form-control form-control-sm">
-                    <option>Small select</option>
-                </select>
-            });
+        // Chosen CSS
+        var config = {
+            ".chosen-select": {},
+            ".chosen-select-deselect": {
+                allow_single_deselect: true
+            },
+            ".chosen-select-no-single": {
+                disable_search_threshold: 10
+            },
+            ".chosen-select-no-results": {
+                no_results_text: "Oops, nothing found!"
+            },
+            ".chosen-select-width": {
+                width: "95%"
+            }
+        };
+
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $.get("/api/choices", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var html = `<h3><strong>Question ${i + 1}</strong></h3>`;
+                html += `<h4>${data[i]}</h4>`;
+                html += `<select class="chosen-select" id="q${i + 1}">`;
+                html += '<option value=""></option>';
+                html += '<option value="1">1 (Strongly Disagree)</option>';
+                html += '<option value="2">2</option>';
+                html += '<option value="3">3</option>';
+                html += '<option value="4">4</option>';
+                html += '<option value="5">5 (Strongly Agree)</option>';
+                html += '</select>';
+                $("#choiceListId").append(html);
+            }
+        });
+
+
     </script>
 </body>
 

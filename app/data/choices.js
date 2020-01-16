@@ -1,5 +1,3 @@
-var choicesArray = ["1(Strongly Disagree)", 2, 3, 4, "5(Strongly Agree)"];
-
 var aboutYouArray = [
     "Your mind is always buzzing with unexplored ideas and plans.",
     "Generally speaking, you rely more on your experience than your imagination.",
@@ -13,5 +11,4 @@ var aboutYouArray = [
     "You feel more energetic after spending time with a group of people."
 ];
 
-module.exports.choicesArray = choicesArray;
-module.exports.aboutYouArray = aboutYouArray;
+module.exports = aboutYouArray;
