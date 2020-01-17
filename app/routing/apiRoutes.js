@@ -32,6 +32,12 @@ module.exports = function (app) {
             });
         }
 
-        console.log(resultArr);
+        //const retVal = resultArr.reduce((min, p) => p.diff < min ? p.diff : min, resultArr[0].diff);
+        //console.log(resultArr);
+        const retVal = Math.min.apply(Math, resultArr.map(function (o) { return o.diff; }))
+
+        const matchedFriend = resultArr.find(function (o) { return o.diff == retVal; })
+
+        res.json(matchedFriend);
     });
 }
