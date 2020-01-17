@@ -105,12 +105,10 @@
                 scores: selScoreArr
             };
 
-            console.log(newFriend);
+            //console.log(newFriend);
 
             $.post("/api/friends", newFriend,
                 function (data) {
-
-
 
                     // Clear the form when submitting
                     $('#form_id').trigger("reset");
