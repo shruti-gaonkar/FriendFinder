@@ -21,11 +21,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <style>
-        form .error {
-            color: #ff0000;
-        }
-    </style>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 <body>
@@ -81,26 +78,7 @@
         </div>
     </div>
     <script>
-        // Chosen CSS
-        var config = {
-            ".chosen-select": {},
-            ".chosen-select-deselect": {
-                allow_single_deselect: true
-            },
-            ".chosen-select-no-single": {
-                disable_search_threshold: 10
-            },
-            ".chosen-select-no-results": {
-                no_results_text: "Oops, nothing found!"
-            },
-            ".chosen-select-width": {
-                width: "95%"
-            }
-        };
-
-        for (var selector in config) {
-            $(selector).chosen(config[selector]);
-        }
+        // api call to get all choices from the choices.js
         $.get("/api/choices", function (data) {
             for (var i = 0; i < data.length; i++) {
                 var html = `<h3><strong>Question ${i + 1}</strong></h3>`;
@@ -115,19 +93,21 @@
                 html += '</select>';
                 $("#choiceListId").append(html);
             }
+
+            // to load select using chosen css
+            //$(".chosen-select").chosen();
         });
 
         $(document).ready(function () {
-
             jQuery.validator.addClassRules('chosen-select', {
                 required: true
             });
+            //$.validator.setDefaults({ ignore: ":hidden:not(.chosen-select)" });
+
+            // jquery validate code to validate the form
             $("form[name='surveyfrm']").validate({
                 // Specify validation rules
                 rules: {
-                    // The key name on the left side is the name attribute
-                    // of an input field. Validation rules are defined
-                    // on the right side
                     name: "required",
                     photo: "required"
                 },
@@ -136,20 +116,19 @@
                     name: "Please enter your name",
                     photo: "Please enter photo link"
                 },
-                // Make sure the form is submitted to the destination defined
-                // in the "action" attribute of the form when valid
                 submitHandler: function (form) {
                     let selScoreArr = [];
                     for (var i = 0; i < 10; i++) {
                         selScoreArr.push($(`#q${(i + 1)}`).val().trim());
                     }
-                    // Here we grab the form elements
+                    // fetch the form elements
                     var newFriend = {
                         name: $("#name").val().trim(),
                         photo: $("#photo").val().trim(),
                         scores: selScoreArr
                     };
 
+                    // post the form details to get the match
                     $.post("/api/friends", newFriend,
                         function (data) {
                             console.log(data);
