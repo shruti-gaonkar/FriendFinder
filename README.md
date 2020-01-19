@@ -11,8 +11,8 @@ Node, Javascript, JQuery
 A compatibility-based "FriendFinder" application that takes in results from users' surveys, then compares their answers with those from other users. The app will then display the name and picture of the user with the best overall match.
 
 1. Link: 
-     Site Link: https://glacial-cliffs-99740.herokuapp.com/
-     Github Link: https://github.com/shruti-gaonkar/FriendFinder
+     * Site Link: https://glacial-cliffs-99740.herokuapp.com/
+     * Github Link: https://github.com/shruti-gaonkar/FriendFinder
 
      ![Survey](app/public/images/site_screen.png) 
 
