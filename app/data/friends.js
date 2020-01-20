@@ -126,6 +126,22 @@ var friendsArray = [
             "4",
             "5"
         ]
+    },
+    {
+        "name": "Emma Wilson",
+        "photo": "https://images.unsplash.com/photo-1535969475865-f10dc1775d43?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+        "scores": [
+            "4",
+            "5",
+            "5",
+            "1",
+            "4",
+            "3",
+            "1",
+            "1",
+            "4",
+            "5"
+        ]
     }
 ]
 
