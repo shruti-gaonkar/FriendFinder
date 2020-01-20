@@ -3,28 +3,32 @@ const choicesData = require("../data/choices");
 const fs = require("fs");
 
 module.exports = function (app) {
+    // api call to get all the questions for the survey
     app.get("/api/choices", function (req, res) {
         res.send(choicesData);
     });
 
+    // api call to get friends list
     app.get("/api/friends", function (req, res) {
         res.json(friendData);
     });
 
+    // api call to post data and find the closest match
     app.post("/api/friends", function (req, res) {
         let newFriend = req.body;
         let resultArr = [];
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
         for (var i = 0; i < friendData.length; i++) {
+            // to calculate the difference between the current user's
+            // scores and each friend's scores
             const frdArr = friendData[i].scores;
-            //console.log(frdArr);
-            /*frdArr.forEach(function (val, index) {
-                let diff = val - newFriend.scores[index];
-            });*/
             const diffArr = frdArr.map((val, index) => Math.abs(val - newFriend.scores[index]));
 
+            // gets the sum of the difference of the scores
+            // eg Total Difference: **2 + 1 + 2 =** **_5_**
             const diff = diffArr.reduce(reducer);
 
+            // create a new array of all friends with the sum of difference
             resultArr.push({
                 name: friendData[i].name,
                 photo: friendData[i].photo,
@@ -32,12 +36,13 @@ module.exports = function (app) {
             });
         }
 
-        //const retVal = resultArr.reduce((min, p) => p.diff < min ? p.diff : min, resultArr[0].diff);
-        //console.log(resultArr);
+        // get the minimum value from the new array 'diff' property
         const retVal = Math.min.apply(Math, resultArr.map(function (o) { return o.diff; }))
 
+        // if the minimum value matches with the 'diff' property return that array of matched friend
         const matchedFriend = resultArr.find(function (o) { return o.diff == retVal; })
 
+        /* code to add current user to friends.js file */
         friendData.push(newFriend);
 
         let friendStr = 'var friendsArray =';
@@ -50,11 +55,12 @@ module.exports = function (app) {
                 return console.log(err);
             }
 
-            // Otherwise, it will print: "movies.txt was updated!"
+            // Otherwise, it will print: "friends list was updated!"
             console.log("Friends list is updated!");
 
         });
 
+        // return the matched friend to the function calling this api
         res.json(matchedFriend);
     });
 }

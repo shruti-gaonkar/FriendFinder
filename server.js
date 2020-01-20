@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/app/public'));
 
+// defining the routes 
 require("./app/routing/apiRoutes")(app);
 require("./app/routing/htmlRoutes")(app);
 

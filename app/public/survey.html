@@ -128,6 +128,10 @@
                         scores: selScoreArr
                     };
 
+                    $("#match-name").text('');
+                    $("#match-img").attr("src", '');
+                    $("#match-img").attr("alt", '');
+
                     // post the form details to get the match
                     $.post("/api/friends", newFriend,
                         function (data) {
